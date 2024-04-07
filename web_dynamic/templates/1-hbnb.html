@@ -57,7 +57,7 @@
 	    <H3>States</H3>
 	    <H4>&nbsp;</H4>
 	    <UL class="popover">
-	      {% for state in states|dictsort %}
+	      {% for state, cities in states|dictsort %}
 	      <H2>{{ state[0] }}</H2>
 	      <UL>
 		    {% for city in state[1].cities|sort(attribute='name') %}
