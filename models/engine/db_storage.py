@@ -9,6 +9,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
 from models import base_model, amenity, city, place, review, state, user
 import models
+from models.state import State
 
 class DBStorage:
     """
@@ -49,14 +50,27 @@ class DBStorage:
            TODO: review this function
         """
         obj_dict = {}
-        if cls is not None:
-            a_query = self.__session.query(DBStorage.CNC[cls].values())
+
+        """if cls is not None:
+            a_query = self.__session.query(DBStorage.CNC[cls])
             for obj in a_query:
                 obj_ref = "{}.{}".format(type(obj).__name__, obj.id)
                 obj_dict[obj_ref] = obj
             return obj_dict
 
         for c in DBStorage.CNC.values():
+            a_query = self.__session.query(c)
+            for obj in a_query:
+                obj_ref = "{}.{}".format(type(obj).__name__, obj.id)
+                obj_dict[obj_ref] = obj
+        return obj_dict
+        """
+        if cls is not None:
+            classes_to_query = [DBStorage.CNC[cls]]
+        else:
+            classes_to_query = DBStorage.CNC.values()
+
+        for c in classes_to_query:
             a_query = self.__session.query(c)
             for obj in a_query:
                 obj_ref = "{}.{}".format(type(obj).__name__, obj.id)
